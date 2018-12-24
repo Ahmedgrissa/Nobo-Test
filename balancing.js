@@ -31,45 +31,32 @@ const getChildrenObject = (id) => {
     return obj;
 }
 
-const getNextLevel = (parent, finalArray) => {
+const getNextLevel = (parent, finalObject) => {
     tableau_1.filter(element => {
         return element.parent === parent
     }).map(element => {
         return { id: element.id, name: element.name }
     }).forEach(child => {
-        finalArray[child.id] = { name: child.name }
+        finalObject[child.id] = { name: child.name }
     });
 
-    Object.keys(finalArray).forEach(element => {
-        finalArray[element]["children"] = (getChildrenObject(Number(element)));
+    Object.keys(finalObject).forEach(element => {
+        finalObject[element]["children"] = (getChildrenObject(Number(element)));
     });
-}
-
-const sortArray = (parent) => {
-    children = getChildrenId(parent)
-        children.forEach(child => {
-            getNextLevel(parent, finalArray[parent].children);
-        })
 }
 
 let parent = null;
 let childrenId = getChildrenId(null);
-let finalArray = {};
-console.log(childrenId);
-getNextLevel(null, finalArray);
-sortArray(1);
-sortArray(10);
-sortArray(2);
-sortArray(3);
-sortArray(4);
-sortArray(5);
-sortArray(6);
-sortArray(8);
-sortArray(7);
-sortArray(9);
+let finalObject = {};
+getNextLevel(null, finalObject);
+getNextLevel(1, finalObject["1"].children);
+getNextLevel(10, finalObject["10"].children);
+getNextLevel(2, finalObject["1"].children["2"].children);
+getNextLevel(3, finalObject["1"].children["3"].children);
+getNextLevel(4, finalObject["1"].children["2"].children["4"].children);
+getNextLevel(5, finalObject["1"].children["2"].children["5"].children);
+getNextLevel(6, finalObject["1"].children["2"].children["4"].children["6"].children);
+getNextLevel(7, finalObject["1"].children["2"].children["5"].children["7"].children);
 
+console.log(finalObject);
 
-// getNextLevel(1, finalArray["1"].children);
-// getNextLevel(finalArray["1"].children)
-// getNextLevel(10, finalArray["10"].children);
-console.log('finalArray', finalArray["1"].children["2"]);
